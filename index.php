@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +12,7 @@
     <meta content="" name="keywords" />
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/favicon.ico" rel="icon" />
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
     <!-- Fonts -->
@@ -29,6 +32,9 @@
 
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body class="index-page">
@@ -54,6 +60,10 @@
             <a class="btn-getstarted" href="get-a-quote.html">Admin Log in</a>
         </div>
     </header>
+
+    <?php 
+    include_once 'alert.php';
+    ?>
 
     <main class="main">
         <!-- Hero Section -->
@@ -101,7 +111,7 @@
                                     <div class="col-12">
                                         <label for="yourUsername" class="form-label">ID Number</label>
                                         <div class="input-group has-validation">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                            <span class="input-group-text" id="inputGroupPrepend">#</span>
                                             <input type="text" name="idNumber" class="form-control form-control-sm"
                                                 id="yourUsername" required />
                                             <div class="invalid-feedback">
@@ -113,11 +123,13 @@
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Password</label>
                                         <input type="password" name="password" class="form-control" id="yourPassword"
-                                            required />
-                                        <div class="invalid-feedback">
-                                            Please enter your password!
-                                        </div>
+                                            required>
+                                        <span hidden="hidden" class="field-icon toggle-password bi bi-eye-fill"
+                                            id="icon"
+                                            style="position: absolute; right: 45px; transform: translate(0, -50%); top: 61.5%; cursor: pointer;"></span>
                                     </div>
+
+                                    <script src="assets/js/password.js"></script>
 
                                     <div class="col-12">
                                         <div class="form-check">
@@ -205,10 +217,6 @@
                 <span>All Rights Reserved</span>
             </p>
             <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you've purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
                 Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
         </div>
