@@ -9,37 +9,39 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'dashboard') ? '' : 'collapsed' ?>" href="dashboard.php">
+            <a class="nav-link <?= ($current_page == 'dashboard') ? '' : 'collapsed' ?>" href="dashboard">
                 <i class="bi bi-grid-1x2"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
+        <li class="nav-heading">Pages</li>
+
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'subjects') ? '' : 'collapsed' ?>" href="subjects.php">
+            <a class="nav-link <?= ($current_page == 'subject') ? '' : 'collapsed' ?>" href="subject">
                 <i class="bi bi-book"></i>
                 <span>Subject</span>
             </a>
         </li><!-- End Subject Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'students') ? '' : 'collapsed' ?>" href="students.php">
+            <a class="nav-link <?= ($current_page == 'student') ? '' : 'collapsed' ?>" href="student">
                 <i class="bi bi-person"></i>
-                <span>Students</span>
+                <span>Student</span>
             </a>
         </li><!-- End Students Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'teachers') ? '' : 'collapsed' ?>" href="teachers.php">
+            <a class="nav-link <?= ($current_page == 'teacher') ? '' : 'collapsed' ?>" href="teacher">
                 <i class="bi bi-pen"></i>
-                <span>Teachers</span>
+                <span>Teacher</span>
             </a>
         </li><!-- End Teachers Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'announcements') ? '' : 'collapsed' ?>" href="announcements.php">
+            <a class="nav-link <?= ($current_page == 'announcement') ? '' : 'collapsed' ?>" href="announcement">
                 <i class="bi bi-megaphone"></i>
-                <span>Announcements</span>
+                <span>Announcement</span>
             </a>
         </li><!-- End Announcements Page Nav -->
 
