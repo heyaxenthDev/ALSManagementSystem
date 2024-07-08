@@ -1,6 +1,7 @@
 <?php
 // include 'authentication.php';
 //checkLogin(); // Call the function to check if the user is logged in
+session_start();
 include_once 'includes/header.php';
 include_once 'includes/sidebar.php';
 include "includes/conn.php";
@@ -33,7 +34,7 @@ include "alert.php";
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">New Teacher</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" method="POST">
+                <form action="code.php" method="POST">
 
                     <div class="modal-body">
 
@@ -52,10 +53,19 @@ include "alert.php";
                                 placeholder="Lastname">
                             <label for="lastName">Last Name</label>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="middleName" name="middle_name"
+                                placeholder="Lastname">
+                            <label for="middleName">Middle Name</label>
+                        </div>
+                        <!-- <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username">
+                        </div> -->
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"><i class="bi bi-floppy"></i> Save</button>
+                        <button type="submit" class="btn btn-primary" name="AddTeacher"><i class="bi bi-floppy"></i>
+                            Save</button>
                     </div>
 
                 </form>
@@ -75,12 +85,12 @@ include "alert.php";
                         <table class="table datatable">
                             <thead>
                                 <tr>
+                                    <th>#</th>
+                                    <th>ID Number</th>
                                     <th>
                                         <b>N</b>ame
                                     </th>
-                                    <th>Ext.</th>
-                                    <th>City</th>
-                                    <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
+                                    <th>Username</th>
                                     <th>Completion</th>
                                 </tr>
                             </thead>
@@ -97,9 +107,9 @@ include "alert.php";
                                 ?>
                                 <tr>
                                     <td><?php echo $counter++ ?></td>
-                                    <td><?php echo $row['']?></td>
-                                    <td>Redwater</td>
-                                    <td>2012/03/03</td>
+                                    <td><?php echo $row['ID_Number']?></td>
+                                    <td><?php echo $row['First_name'] . " " . $row['Last_name']?></td>
+                                    <td><?php echo $row['username']?></td>
                                     <td>31%</td>
                                 </tr>
                                 <?php 
