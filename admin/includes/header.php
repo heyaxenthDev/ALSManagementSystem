@@ -1,3 +1,6 @@
+<?php 
+include "includes/conn.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +39,31 @@
 </head>
 
 <body>
+
+    <?php
+      // Check if admin is logged in
+      if (isset($_SESSION['admin_code']) && isset($_SESSION['admin_id'])) {
+          $admin_code = $_SESSION['admin_code'];
+          $id = $_SESSION['admin_id'];
+
+          // Query to select admin details
+          $select_admin = "SELECT *, SUBSTRING_INDEX(TRIM(Fistname), ' ', -1) AS Lastname FROM `admin` WHERE `adminID` = '$admin_code' AND `id` = '$id'";
+          $result = mysqli_query($conn, $select_admin);
+
+          if ($result && mysqli_num_rows($result) > 0) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                  $short_name = substr($row['Firstname'], 0, 1) . ".". $row['Lastname'];
+                  $name = $row['Firstname'] .  " " . substr($row['Middlename'], 0, 1) . ". " . $row['Lastname'];
+                  $code = $row['adminID'];
+              }
+          } else {
+              echo "No admin found with the given credentials.";
+          }
+      } else {
+          echo "No admin is logged in.";
+      }
+
+      ?>
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
@@ -239,7 +267,8 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center"
+                                href="\ALSManagementSystem/admin-logout.php">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>

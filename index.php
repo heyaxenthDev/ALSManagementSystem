@@ -82,7 +82,7 @@ session_start();
                 </p>
             </div>
 
-            <form class="row g-3 needs-validation px-3" novalidate>
+            <form action="login-code.php" method="POST" class="row g-3 needs-validation px-3" novalidate>
 
                 <div class="col-12">
                     <label for="yourUserID" class="form-label">Admin ID Number</label>
@@ -112,7 +112,7 @@ session_start();
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary w-100" type="submit">
+                    <button class="btn btn-primary w-100" type="submit" name="AdminLogin">
                         Login
                     </button>
                 </div>
