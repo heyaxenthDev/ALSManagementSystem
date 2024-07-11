@@ -66,66 +66,6 @@ session_start();
     include_once 'alert.php';
     ?>
 
-    <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="pt-3 pb-4">
-                <h5 class="card-title text-center pb-0 fs-4">
-                    Login to Your Account
-                </h5>
-                <p class="text-center small">
-                    Enter your ID Number & password to login
-                </p>
-            </div>
-
-            <form action="login-code.php" method="POST" class="row g-3 needs-validation px-3" novalidate>
-
-                <div class="col-12">
-                    <label for="yourUserID" class="form-label">Admin ID Number</label>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">#</span>
-                        <input type="text" name="idNumber" class="form-control form-control-sm" id="yourUserID"
-                            required>
-                        <div class="invalid-feedback">
-                            Please enter your ID Number.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <label for="yourAdminPassword" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="yourAdminPassword" required>
-                    <span hidden="hidden" class="field-icon toggle-admin-password bi bi-eye-fill" id="adminicon"
-                        style="position: absolute; right: 45px; transform: translate(0, -50%); top: 32.5%; cursor: pointer;"></span>
-                </div>
-
-                <script src="assets/js/admin-password.js"></script>
-
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" />
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary w-100" type="submit" name="AdminLogin">
-                        Login
-                    </button>
-                </div>
-                <div class="col-12">
-                    <p class="small mb-0">
-                        Don't have account?
-                        <a href="pages-register.html">Request Here</a>
-                    </p>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <main class="main">
         <!-- Hero Section -->
         <section id="hero" class="hero section">
@@ -226,6 +166,67 @@ session_start();
             </div>
         </section>
         <!-- /Hero Section -->
+
+        <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="pt-3 pb-4">
+                    <h5 class="card-title text-center pb-0 fs-4">
+                        Login to Your Account
+                    </h5>
+                    <p class="text-center small">
+                        Enter your ID Number & password to login
+                    </p>
+                </div>
+
+                <form action="login-code.php" method="POST" class="row g-3 needs-validation px-3" novalidate>
+
+                    <div class="col-12">
+                        <label for="yourUserID" class="form-label">Admin ID Number</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend">#</span>
+                            <input type="text" name="idNumber" class="form-control form-control-sm" id="yourUserID"
+                                required>
+                            <div class="invalid-feedback">
+                                Please enter your ID Number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="yourAdminPassword" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="yourAdminPassword" required>
+                        <span hidden="hidden" class="field-icon toggle-admin-password bi bi-eye-fill" id="adminicon"
+                            style="position: absolute; right: 45px; transform: translate(0, -50%); top: 32.5%; cursor: pointer;"></span>
+                    </div>
+
+                    <script src="assets/js/admin-password.js"></script>
+
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" value="true"
+                                id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100" type="submit" name="AdminLogin">
+                            Login
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <p class="small mb-0">
+                            Don't have account?
+                            <a href="pages-register.html">Request Here</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer id="footer" class="footer">

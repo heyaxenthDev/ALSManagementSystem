@@ -45,6 +45,16 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </a>
         </li><!-- End Announcements Page Nav -->
 
+
+        <li class="nav-heading">User</li>
+
+        <li class="nav-item">
+            <a class="nav-link <?= ($current_page == 'users-profile') ? '' : 'collapsed' ?>" href="users-profile">
+                <i class="bi bi-person-badge"></i>
+                <span>User Profile</span>
+            </a>
+        </li><!-- End User Profile Page Nav -->
+
     </ul>
 
 </aside><!-- End Sidebar-->
