@@ -49,10 +49,10 @@ session_start();
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li>
-                        <a href="index.html" class="active">Home<br /></a>
+                        <a href="index" class="active">Home<br /></a>
                     </li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -90,20 +90,21 @@ session_start();
                                     </p>
                                 </div>
 
-                                <form class="row g-3 needs-validation px-3" novalidate>
+                                <form action="login-code.php" method="POST" class="row g-3 needs-validation px-3"
+                                    novalidate>
 
                                     <div class="d-flex gap-3 justify-content-center">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault1" checked>
-                                            <label class="form-check-label" for="flexRadioDefault1">
+                                            <input class="form-check-input" type="radio" name="RadioDefault"
+                                                id="StudentRadio" checked>
+                                            <label class="form-check-label" for="StudentRadio">
                                                 Student
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault2">
-                                            <label class="form-check-label" for="flexRadioDefault2">
+                                            <input class="form-check-input" type="radio" name="RadioDefault"
+                                                id="TeacherRadio">
+                                            <label class="form-check-label" for="TeacherRadio">
                                                 Teacher
                                             </label>
                                         </div>
@@ -140,14 +141,14 @@ session_start();
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">
+                                        <button class="btn btn-primary w-100" type="submit" name="UserLogin">
                                             Login
                                         </button>
                                     </div>
                                     <div class="col-12">
                                         <p class="small mb-0">
                                             Don't have account?
-                                            <a href="pages-register.html">Request Here</a>
+                                            <a href="pages-register">Request Here</a>
                                         </p>
                                     </div>
                                 </form>

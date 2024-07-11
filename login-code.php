@@ -45,4 +45,15 @@ if (isset($_POST['AdminLogin'])) {
         exit();
     }
 }
+
+function teacher(){
+
+}
+function student(){
+    
+}
+
+if (isset($_POST['UserLogin'])) {
+    
+}
 ?>
