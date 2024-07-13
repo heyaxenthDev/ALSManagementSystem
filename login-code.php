@@ -80,6 +80,7 @@ function authenticateUser($conn, $ID_number, $password, $table, $redirectPath) {
             if ($updateQuery->execute()) {
                 $_SESSION['user_auth'] = true;
                 $_SESSION['user_id'] = $row['ID_Number'];
+                $_SESSION['tablename'] = $table;
                 $_SESSION['logged'] = "Logged in successfully";
                 $_SESSION['logged_icon'] = "success";
                 header("Location: $redirectPath");
