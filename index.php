@@ -95,18 +95,14 @@ session_start();
 
                                     <div class="d-flex gap-3 justify-content-center">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="RadioDefault"
-                                                id="StudentRadio" checked>
-                                            <label class="form-check-label" for="StudentRadio">
-                                                Student
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="SelectRadio"
+                                                id="StudentRadio" value="Student" required>
+                                            <label class="form-check-label" for="StudentRadio">Student</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="RadioDefault"
-                                                id="TeacherRadio">
-                                            <label class="form-check-label" for="TeacherRadio">
-                                                Teacher
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="SelectRadio"
+                                                id="TeacherRadio" value="Teacher" required>
+                                            <label class="form-check-label" for="TeacherRadio">Teacher</label>
                                         </div>
                                     </div>
 
@@ -115,10 +111,8 @@ session_start();
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">#</span>
                                             <input type="text" name="idNumber" class="form-control form-control-sm"
-                                                id="yourUserID" required />
-                                            <div class="invalid-feedback">
-                                                Please enter your ID Number.
-                                            </div>
+                                                id="yourUserID" required>
+                                            <div class="invalid-feedback">Please enter your ID Number.</div>
                                         </div>
                                     </div>
 
@@ -210,7 +204,7 @@ session_start();
                     <div class="col-12">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" value="true"
-                                id="rememberMe" />
+                                id="rememberMe">
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
                     </div>
