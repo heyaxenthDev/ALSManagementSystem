@@ -20,7 +20,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'subject') ? '' : 'collapsed' ?>" href="subject">
                 <i class="bi bi-book"></i>
-                <span>Subject</span>
+                <span>Subjects</span>
             </a>
         </li><!-- End Subject Page Nav -->
 

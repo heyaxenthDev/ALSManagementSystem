@@ -196,7 +196,7 @@ session_start();
                         <label for="yourAdminPassword" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" id="yourAdminPassword" required>
                         <span hidden="hidden" class="field-icon toggle-admin-password bi bi-eye-fill" id="adminicon"
-                            style="position: absolute; right: 45px; transform: translate(0, -50%); top: 32.5%; cursor: pointer;"></span>
+                            style="position: absolute; right: 45px; transform: translate(0, -50%); top: 42%; cursor: pointer;"></span>
                     </div>
 
                     <script src="assets/js/admin-password.js"></script>
