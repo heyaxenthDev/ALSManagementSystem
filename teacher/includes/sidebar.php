@@ -10,7 +10,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
         <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'home') ? '' : 'collapsed' ?>" href="home">
-                <i class="bi bi-grid-1x2"></i>
+                <i class="bi bi-house"></i>
                 <span>Home</span>
             </a>
         </li><!-- End Home Nav -->
@@ -25,18 +25,11 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         </li><!-- End Subject Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'student') ? '' : 'collapsed' ?>" href="student">
-                <i class="bi bi-person"></i>
-                <span>Student</span>
+            <a class="nav-link <?= ($current_page == 'class') ? '' : 'collapsed' ?>" href="Class">
+                <i class="bi bi-bookmarks-fill"></i>
+                <span>Class</span>
             </a>
-        </li><!-- End Students Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'teacher') ? '' : 'collapsed' ?>" href="teacher">
-                <i class="bi bi-pen"></i>
-                <span>Teacher</span>
-            </a>
-        </li><!-- End Teachers Page Nav -->
+        </li><!-- End Class Page Nav -->
 
         <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'announcement') ? '' : 'collapsed' ?>" href="announcement">

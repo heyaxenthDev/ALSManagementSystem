@@ -48,15 +48,16 @@ include "alert.php";
                             <label for="firstName">First Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="lastName" name="last_name"
-                                placeholder="Lastname">
-                            <label for="lastName">Last Name</label>
-                        </div>
-                        <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="middleName" name="middle_name"
                                 placeholder="Lastname">
                             <label for="middleName">Middle Name</label>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="lastName" name="last_name"
+                                placeholder="Lastname">
+                            <label for="lastName">Last Name</label>
+                        </div>
+
                         <!-- <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username">
                         </div> -->
@@ -90,7 +91,7 @@ include "alert.php";
                                         <b>N</b>ame
                                     </th>
                                     <th>Username</th>
-                                    <th>Completion</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,7 +110,11 @@ include "alert.php";
                                     <td><?php echo $row['ID_Number']?></td>
                                     <td><?php echo $row['First_name'] . " " . $row['Last_name']?></td>
                                     <td><?php echo $row['username']?></td>
-                                    <td>31%</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm g-2"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-secondary btn-sm"><i
+                                                class="bi bi-pencil-square"></i></button>
+                                    </td>
                                 </tr>
                                 <?php 
                                 }

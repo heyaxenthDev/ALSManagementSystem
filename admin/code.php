@@ -59,29 +59,68 @@ if (isset($_POST['AddSubject'])) {
     $subjectName = $conn->real_escape_string($_POST['subject_name']);
     $descTitle = $conn->real_escape_string($_POST['descriptive_title']);
     $desc = $conn->real_escape_string($_POST['description']);
-    
+    $teacherCode = $conn->real_escape_string($_POST['teacherCode']);
+
+    // Generate subject code
+    // $currentDate = date('Ymd');
+    $randomNumber = rand(1000, 9999);
+
+    // Get the last inserted ID from the subjects table
+    $result = $conn->query("SELECT MAX(id) AS last_id FROM `subjects`");
+    $row = $result->fetch_assoc();
+    $lastId = $row['last_id'] + 1; // Increment last ID for the new record
+
+    $subjectCode = "{$randomNumber}-{$lastId}";
+
     // Insert subject data
-    $stmt = $conn->prepare("INSERT INTO `subjects`(`Name`, `DescTitle`, `Description`) VALUES (?,?,?)");
-    $stmt->bind_param("sss", $subjectName, $descTitle, $desc);
+    $stmt = $conn->prepare("INSERT INTO `subjects`(`Name`, `DescTitle`, `Description`, `TeacherCode`, `Subject_code`) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $subjectName, $descTitle, $desc, $teacherCode, $subjectCode);
 
     if ($stmt->execute()) {
-          // Return success or error message
-          $_SESSION['status'] = "Success";
-          $_SESSION['status_text'] = "New subject data has been added successfully.";
-          $_SESSION['status_code'] = "success";
-          $_SESSION['status_btn'] = "Done";
-          header("Location: {$_SERVER['HTTP_REFERER']}");
-      }else{
-          $_SESSION['status'] = "Error";
-          $_SESSION['status_text'] = "Error: " . $stmt->error;
-          $_SESSION['status_code'] = "error";
-          $_SESSION['status_btn'] = "ok";
-          header("Location: {$_SERVER['HTTP_REFERER']}");
-          exit;
-      }
-  
-      // Close the statement
-      $stmt->close();
+        // Get Teacher code value and insert to subject table
+        $get_teacher = $conn->prepare("SELECT * FROM `teachers` WHERE `ID_Number` = ?");
+        $get_teacher->bind_param("s", $teacherCode);
+        $get_teacher->execute();
+        $result = $get_teacher->get_result();
+
+        if ($result->num_rows > 0) {
+            $teacher = $result->fetch_assoc();
+            $teacher_name = $teacher['First_name'] . " " . substr($teacher['Middle_name'], 0, 1) . ". " . $teacher['Last_name'];
+
+            // Update subject table
+            $update = $conn->prepare("UPDATE `subjects` SET `AssignedTeacher` = ? WHERE `TeacherCode` = ?");
+            $update->bind_param("ss", $teacher_name, $teacherCode);
+
+            if ($update->execute()) {
+                // Return success message
+                $_SESSION['status'] = "Success";
+                $_SESSION['status_text'] = "New subject data has been added successfully.";
+                $_SESSION['status_code'] = "success";
+                $_SESSION['status_btn'] = "Done";
+            } else {
+                $_SESSION['status'] = "Error";
+                $_SESSION['status_text'] = "Error updating assigned teacher: " . $update->error;
+                $_SESSION['status_code'] = "error";
+                $_SESSION['status_btn'] = "OK";
+            }
+        } else {
+            $_SESSION['status'] = "Error";
+            $_SESSION['status_text'] = "Teacher not found.";
+            $_SESSION['status_code'] = "error";
+            $_SESSION['status_btn'] = "OK";
+        }
+        $get_teacher->close();
+    } else {
+        $_SESSION['status'] = "Error";
+        $_SESSION['status_text'] = "Error adding subject: " . $stmt->error;
+        $_SESSION['status_code'] = "error";
+        $_SESSION['status_btn'] = "OK";
+    }
+
+    // Close the statement
+    $stmt->close();
+    header("Location: {$_SERVER['HTTP_REFERER']}");
+    exit;
 }
 
 if (isset($_POST['AddTeacher'])) {

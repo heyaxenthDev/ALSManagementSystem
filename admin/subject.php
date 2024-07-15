@@ -55,6 +55,27 @@ include "alert.php";
                             <label for="description">Description</label>
                         </div>
 
+
+
+                        <select class="form-select" aria-label="Default select example" name="teacherCode"
+                            id="teacherCode">
+                            <option selected>Assign Teacher</option>
+                            <?php 
+                            // Get teacher List
+                            $query = "SELECT * FROM teachers";
+                            $res = mysqli_query($conn, $query);
+
+                            while ($teacher = mysqli_fetch_assoc($res)) {
+                                $teacher_name = $teacher['First_name'] .  " " . substr($teacher['Middle_name'], 0, 1) . ". " . $teacher['Last_name'];
+                            ?>
+                            <option value="<?php echo $teacher['ID_Number']?>"><?php echo $teacher_name?></option>
+                            <?php
+                            }
+                        ?>
+                        </select>
+
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="AddSubject"><i class="bi bi-floppy"></i>
@@ -82,6 +103,7 @@ include "alert.php";
                                     <th>Subject Name</th>
                                     <th>Descriptive Title</th>
                                     <th>Description</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -99,6 +121,17 @@ include "alert.php";
                                     <td><?php echo $row['Name'];?></td>
                                     <td><?php echo $row['DescTitle'];?></td>
                                     <td><?php echo $row['Description']?></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary g-2 view-btn"
+                                            data-name="<?php echo $row['Name'];?>"
+                                            data-desctitle="<?php echo $row['DescTitle'];?>"
+                                            data-description="<?php echo $row['Description'];?>"
+                                            data-teacher="<?php echo $row['AssignedTeacher'];?>">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary"><i
+                                                class="bi bi-pencil-square"></i></button>
+                                    </td>
                                 </tr>
                                 <?php 
                                 }
@@ -109,6 +142,59 @@ include "alert.php";
 
                     </div>
                 </div>
+
+                <!-- View Modal -->
+                <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewModalLabel">Subject Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Name:</strong> <span id="modalName"></span></p>
+                                <p><strong>Description Title:</strong> <span id="modalDescTitle"></span></p>
+                                <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+                                <p><strong>Assigned Teacher:</strong> <span id="modalTeacher"></span></p>
+
+                                <p><strong>Class List:</strong></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var viewButtons = document.querySelectorAll('.view-btn');
+                    viewButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            var name = this.getAttribute('data-name');
+                            var descTitle = this.getAttribute('data-desctitle');
+                            var description = this.getAttribute('data-description');
+                            var teacher = this.getAttribute('data-teacher');
+
+                            document.getElementById('modalName').textContent = name;
+                            document.getElementById('modalDescTitle').textContent = descTitle;
+                            document.getElementById('modalDescription').textContent =
+                                description;
+                            document.getElementById('modalTeacher').textContent = (teacher ===
+                                "" || teacher === null) ? "No Assigned Teacher" : teacher;
+
+                            var viewModal = new bootstrap.Modal(document.getElementById(
+                                'viewModal'));
+                            viewModal.show();
+                        });
+                    });
+                });
+                </script>
+
+
 
             </div>
         </div>

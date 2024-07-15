@@ -86,6 +86,7 @@ include "alert.php";
                                     <th>Last Name</th>
                                     <th>First Name</th>
                                     <th>Middle Name</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
@@ -104,6 +105,11 @@ include "alert.php";
                                     <td><?php echo $row['Lastname'];?></td>
                                     <td><?php echo $row['Firstname']?></td>
                                     <td><?php echo $row['Middlename'];?></td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm g-2"><i class="bi bi-eye"></i></button>
+                                        <button class="btn btn-secondary btn-sm"><i
+                                                class="bi bi-pencil-square"></i></button>
+                                    </td>
                                 </tr>
                                 <?php 
                                 }
