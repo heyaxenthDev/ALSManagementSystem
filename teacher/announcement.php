@@ -31,42 +31,39 @@ include "alert.php";
                         <!-- Announcements Form Elements -->
                         <form class="row g-3" method="POST" action="code.php" enctype="multipart/form-data">
 
-                            <div class="row mb-4 mt-2">
-                                <div class="col-lg-12 col-md-12">
-                                    <center>
-                                        <img id="newsPicturePreview" src="assets/img/undraw_Newspaper_re_syf5.png"
-                                            alt="Announcements Picture Preview"
-                                            style="max-width: 100%; max-height: 300px;">
-                                    </center>
-                                    <small class="mt-2">Add Announcements Picture</small>
-                                    <input type="file" name="newsPicture" class="form-control" id="newsPicture"
-                                        onchange="previewNewsPicture();" accept="image/*" required>
-                                </div>
-                                <script src="js/scripts.js"></script>
+                            <div class="row">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-2">
-                                    <label for="newsTitle" class="form-label">Announcements Title</label>
+                                    <label for="newsTitle" class="form-label">Announcement Title</label>
                                     <input type="text" name="newsTitle" class="form-control" id="newsTitle" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-2">
-                                    <label for="newsContent" class="form-label">Announcements Content</label>
+                                    <label for="newsContent" class="form-label">Announcement Content</label>
                                     <textarea name="newsContent" class="form-control" id="newsContent" rows="2"
                                         required></textarea>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 mb-2">
-                                    <label for="publicationDate" class="form-label">Publication Date</label>
-                                    <input type="date" name="publicationDate" class="form-control" id="publicationDate"
-                                        required>
+                                <div class="col-lg-12 col-md-12 mb-2">
+                                    <label for="publicationDate" class="form-label">Date</label>
+                                    <input type="datetime-local" name="publicationDate" class="form-control"
+                                        id="publicationDate" required>
                                 </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col-lg-6 col-md-6 mb-2">
                                     <label for="newsStatus" class="form-label">Announcements Status</label>
                                     <select name="newsStatus" class="form-select" id="newsStatus" required>

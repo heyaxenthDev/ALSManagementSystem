@@ -55,9 +55,14 @@ include "alert.php";
                             <label for="description">Description</label>
                         </div>
 
+                        <select class="form-select mb-3" aria-label="Select Category" name="category" required>
+                            <option selected>Select Category</option>
+                            <option value="A&E Elementary">A&E Elementary</option>
+                            <option value="A&E Junior High">A&E Junior High</option>
+                            <option value="Basic Literacy">Basic Literacy</option>
+                        </select>
 
-
-                        <select class="form-select" aria-label="Default select example" name="teacherCode"
+                        <select class="form-select mb-3" aria-label="Assign Teacher" name="teacherCode"
                             id="teacherCode">
                             <option selected>Assign Teacher</option>
                             <?php 
@@ -100,9 +105,10 @@ include "alert.php";
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Subject Name</th>
                                     <th>Descriptive Title</th>
-                                    <th>Description</th>
+                                    <th>Subject Name</th>
+                                    <th>Program Category</th>
+                                    <th>Assigned Teacher</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -116,21 +122,43 @@ include "alert.php";
                                 $counter = 1;
                                 while($row = mysqli_fetch_assoc($results)){
                                 ?>
-                                <tr>
+                                <tr data-id="<?php echo $row['id']; ?>">
+
                                     <td><?php echo $counter++ ?></td>
-                                    <td><?php echo $row['Name'];?></td>
                                     <td><?php echo $row['DescTitle'];?></td>
-                                    <td><?php echo $row['Description']?></td>
+                                    <td data-name="<?php echo $row['Name'];?>"><?php echo $row['Name'];?></td>
+                                    <td>
+                                        <?php 
+                                    switch ($row['category']) {
+                                        case "A&E Elementary":
+                                            echo "<span class='badge bg-primary'>A&E Elementary</span>";
+                                            break;
+                                        case "A&E Junior High":
+                                            echo "<span class='badge bg-success'>A&E Junior High</span>";
+                                            break;
+                                        case "Basic Literacy":
+                                            echo "<span class='badge bg-info'>Basic Literacy</span>";
+                                            break;
+                                        default:
+                                            echo "<span class='badge bg-secondary'>No category indicated</span>";
+                                            break;
+                                    }?>
+                                    </td>
+                                    <td><?php echo $row['AssignedTeacher']?></td>
                                     <td>
                                         <button class="btn btn-sm btn-primary g-2 view-btn"
+                                            data-category="<?php echo $row['category'];?>"
                                             data-name="<?php echo $row['Name'];?>"
                                             data-desctitle="<?php echo $row['DescTitle'];?>"
                                             data-description="<?php echo $row['Description'];?>"
                                             data-teacher="<?php echo $row['AssignedTeacher'];?>">
                                             <i class="bi bi-eye"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-secondary"><i
-                                                class="bi bi-pencil-square"></i></button>
+                                        <button class="btn btn-sm btn-secondary"
+                                            data-desctitle="<?php echo $row['DescTitle'];?>"
+                                            data-description="<?php echo $row['Description'];?>"
+                                            data-teacher="<?php echo $row['AssignedTeacher'];?>">
+                                            <i class="bi bi-pencil-square"></i></button>
                                     </td>
                                 </tr>
                                 <?php 
@@ -154,15 +182,67 @@ include "alert.php";
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <p id="modalCategory"></p>
                                 <p><strong>Name:</strong> <span id="modalName"></span></p>
                                 <p><strong>Description Title:</strong> <span id="modalDescTitle"></span></p>
                                 <p><strong>Description:</strong> <span id="modalDescription"></span></p>
                                 <p><strong>Assigned Teacher:</strong> <span id="modalTeacher"></span></p>
-
-                                <p><strong>Class List:</strong></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Edit Subject Modal -->
+                <div class="modal fade" id="editSubjectModal" tabindex="-1" aria-labelledby="editSubjectModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editSubjectModalLabel">Edit Subject</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editSubjectForm" method="post" action="edit_subject.php">
+                                    <input type="hidden" name="subject_id" id="subjectId">
+                                    <div class="mb-3">
+                                        <label for="subjectName" class="form-label">Subject Name</label>
+                                        <input type="text" class="form-control" id="subjectName" name="subject_name"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descriptiveTitle" class="form-label">Descriptive Title</label>
+                                        <input type="text" class="form-control" id="descriptiveTitle"
+                                            name="descriptive_title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea class="form-control" id="description" name="description" rows="3"
+                                            required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="teacherCode" class="form-label">Assign Teacher</label>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="teacher_code" id="teacherCode">
+                                            <option selected>Assign Teacher</option>
+                                            <?php 
+                                            // Get teacher list
+                                            $query = "SELECT * FROM teachers";
+                                            $res = mysqli_query($conn, $query);
+                                            while ($teacher = mysqli_fetch_assoc($res)) {
+                                                $teacher_name = $teacher['First_name'] .  " " . substr($teacher['Middle_name'], 0, 1) . ". " . $teacher['Last_name'];
+                                            ?>
+                                            <option value="<?php echo $teacher['ID_Number']?>">
+                                                <?php echo $teacher_name?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -174,10 +254,30 @@ include "alert.php";
                     var viewButtons = document.querySelectorAll('.view-btn');
                     viewButtons.forEach(function(button) {
                         button.addEventListener('click', function() {
+                            var category = this.getAttribute('data-category');
+                            var badgeClass = '';
+
+                            switch (category) {
+                                case 'A&E Elementary':
+                                    badgeClass = 'badge bg-primary';
+                                    break;
+                                case 'A&E Junior High':
+                                    badgeClass = 'badge bg-success';
+                                    break;
+                                case 'Basic Literacy':
+                                    badgeClass = 'badge bg-info';
+                                    break;
+                                default:
+                                    badgeClass = 'badge bg-secondary';
+                                    break;
+                            }
                             var name = this.getAttribute('data-name');
                             var descTitle = this.getAttribute('data-desctitle');
                             var description = this.getAttribute('data-description');
                             var teacher = this.getAttribute('data-teacher');
+
+                            document.getElementById('modalCategory').innerHTML =
+                                `<strong>Category:</strong> <span class="${badgeClass}">${category}</span>`;
 
                             document.getElementById('modalName').textContent = name;
                             document.getElementById('modalDescTitle').textContent = descTitle;
@@ -189,6 +289,34 @@ include "alert.php";
                             var viewModal = new bootstrap.Modal(document.getElementById(
                                 'viewModal'));
                             viewModal.show();
+                        });
+                    });
+                });
+                </script>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const editButtons = document.querySelectorAll('.btn-secondary');
+                    editButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            const row = button.closest('tr');
+                            const subjectId = row.dataset.id;
+                            const subjectName = row.querySelector('[data-name]').textContent;
+                            const descTitle = row.querySelector('[data-desctitle]').textContent;
+                            const description = row.querySelector('[data-description]')
+                                .textContent;
+                            const assignedTeacher = row.querySelector('[data-teacher]')
+                                .textContent;
+
+                            document.getElementById('subjectId').value = subjectId;
+                            document.getElementById('subjectName').value = subjectName;
+                            document.getElementById('descriptiveTitle').value = descTitle;
+                            document.getElementById('description').value = description;
+                            document.getElementById('teacherCode').value = assignedTeacher;
+
+                            const editSubjectModal = new bootstrap.Modal(document
+                                .getElementById('editSubjectModal'));
+                            editSubjectModal.show();
                         });
                     });
                 });

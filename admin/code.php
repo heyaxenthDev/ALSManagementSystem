@@ -60,6 +60,7 @@ if (isset($_POST['AddSubject'])) {
     $descTitle = $conn->real_escape_string($_POST['descriptive_title']);
     $desc = $conn->real_escape_string($_POST['description']);
     $teacherCode = $conn->real_escape_string($_POST['teacherCode']);
+    $category = $conn->real_escape_string($_POST['category']);
 
     // Generate subject code
     // $currentDate = date('Ymd');
@@ -73,8 +74,8 @@ if (isset($_POST['AddSubject'])) {
     $subjectCode = "{$randomNumber}-{$lastId}";
 
     // Insert subject data
-    $stmt = $conn->prepare("INSERT INTO `subjects`(`Name`, `DescTitle`, `Description`, `TeacherCode`, `Subject_code`) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $subjectName, $descTitle, $desc, $teacherCode, $subjectCode);
+    $stmt = $conn->prepare("INSERT INTO `subjects`(`Name`, `DescTitle`, `Description`, `TeacherCode`, `Subject_code`,`category`) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $subjectName, $descTitle, $desc, $teacherCode, $subjectCode, $category);
 
     if ($stmt->execute()) {
         // Get Teacher code value and insert to subject table

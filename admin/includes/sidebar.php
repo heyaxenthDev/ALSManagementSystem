@@ -25,6 +25,13 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         </li><!-- End Subject Page Nav -->
 
         <li class="nav-item">
+            <a class="nav-link <?= ($current_page == 'enrollment') ? '' : 'collapsed' ?>" href="enrollment">
+                <i class="bi bi-bookmark-plus"></i>
+                <span>Enrollment</span>
+            </a>
+        </li><!-- End Class Page Nav -->
+
+        <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'student') ? '' : 'collapsed' ?>" href="student">
                 <i class="bi bi-person"></i>
                 <span>Student</span>
