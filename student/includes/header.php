@@ -62,7 +62,7 @@ include "includes/conn.php";
                 echo "No student found with the given credentials.";
             }
 
-            $stmt->close(); // Close statement
+           
         } else {
             echo "No student is logged in.";
         }

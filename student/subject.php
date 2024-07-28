@@ -36,26 +36,37 @@ include "alert.php";
                                     <th>#</th>
                                     <th>Subject Name</th>
                                     <th>Descriptive Title</th>
-                                    <th>Description</th>
+                                    <th>Teacher</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <?php 
-                                // Fetch data from the subject table
-                                $query = "SELECT * FROM `subjects`";
-                                $results = mysqli_query($conn, $query);
-                                
+                                 // Get Announcements Posted by the enrolled subjects
+                                $student_id = $_SESSION['user_id'];
+
+                                $stmt = $conn->prepare("SELECT s.Name, s.DescTitle, s.Description, s.category, s.AssignedTeacher, s.TeacherCode FROM subjects s JOIN enrollments e ON s.Subject_code = e.subjectCode WHERE e.StudentID = ?");
+                                $stmt->bind_param('s', $student_id);
+                                $stmt->execute();
+                                $sub = $stmt->get_result();
+
+                                if ($sub && $sub->num_rows > 0) {
                                 $counter = 1;
-                                while($row = mysqli_fetch_assoc($results)){
+                                while($row = $sub->fetch_assoc()){
                                 ?>
                                 <tr>
                                     <td><?php echo $counter++ ?></td>
                                     <td><?php echo $row['Name'];?></td>
                                     <td><?php echo $row['DescTitle'];?></td>
-                                    <td><?php echo $row['Description']?></td>
+                                    <td><?php echo $row['AssignedTeacher']?></td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm g-2"><i class="bi bi-eye"></i> View
+                                            Class</button>
+                                    </td>
                                 </tr>
                                 <?php 
+                                 }
                                 }
                                 ?>
                             </tbody>

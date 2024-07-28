@@ -123,7 +123,8 @@ include "alert.php";
                 $(document).ready(function() {
                     $('#typeAnc').on('keyup change', function() {
                         var selectType = $(this).val();
-                        if (selectType) { // Optionally, add conditions to check for specific types
+                        if (selectType ==
+                            "Virtual Class") { // Optionally, add conditions to check for specific types
                             $('#showInputLink').removeClass('d-none');
                             $('#virtualLink').attr('required');
 

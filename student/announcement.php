@@ -27,7 +27,7 @@ include "alert.php";
 
 
             $stmt = $conn->prepare("SELECT a.id,a.Title,a.Content,a.SubjectCode,a.forDate,a.Type,a.TeacherCode,a.VirtualLink,a.date_created
-                        FROM announcement a JOIN  enrollments e ON a.SubjectCode = e.subjectCode WHERE e.studentID = ?");
+                        FROM announcement a JOIN  enrollments e ON a.SubjectCode = e.subjectCode WHERE e.studentID = ? ORDER BY a.forDate DESC");
             $stmt->bind_param('s', $student_id);
             $stmt->execute();
             $get_anc = $stmt->get_result();
