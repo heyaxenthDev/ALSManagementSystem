@@ -31,53 +31,86 @@ include "alert.php";
                         <!-- Announcements Form Elements -->
                         <form class="row g-3" method="POST" action="code.php" enctype="multipart/form-data">
 
-                            <div class="row">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                            <div class="row mb-3 mt-3">
+                                <select class="form-select" aria-label="Select Class" name="classAnc" id="classAnc">
+                                    <option selected>Select Class for Announcement</option>
+                                    <?php 
+                                    // Assuming $conn is your database connection and $code is properly escaped and sanitized
+                                    $teacherCode = $_SESSION['user_id'];
+
+                                    // Use prepared statement for the first query to prevent SQL injection
+                                    $query = "SELECT * FROM subjects WHERE TeacherCode = ?";
+                                    $stmt1 = $conn->prepare($query);
+                                    $stmt1->bind_param("s", $teacherCode);
+                                    $stmt1->execute();
+                                    $res = $stmt1->get_result();
+
+                                    if ($res->num_rows > 0) {
+                                        while ($class = $res->fetch_assoc()) {
+                                    ?>
+                                    <option
+                                        value="<?php echo htmlspecialchars($class['Subject_code'], ENT_QUOTES, 'UTF-8'); ?>">
+                                        <?php echo htmlspecialchars($class['Name'], ENT_QUOTES, 'UTF-8'); ?>
+                                    </option>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo "No classes found for the given teacher code.";
+                                    }
+
+                                    $stmt1->close(); // Close the first statement
+                                    ?>
+
+
+                                </select>
+                            </div>
+
+                            <div class="row mb-3">
+                                <select name="typeAnc" id="typeAnc" class="form-select">
+                                    <option selected>Select Announcement Type</option>
+                                    <option value="Virtual Class">Virtual Class</option>
+                                    <option value="No Class">No Class</option>
+                                    <option value="Regular Announcement">Regular Announcement</option>
                                 </select>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-2">
-                                    <label for="newsTitle" class="form-label">Announcement Title</label>
-                                    <input type="text" name="newsTitle" class="form-control" id="newsTitle" required>
+                                    <label for="AncTitle" class="form-label">Announcement Title</label>
+                                    <input type="text" name="AncTitle" class="form-control" id="AncTitle" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-2">
-                                    <label for="newsContent" class="form-label">Announcement Content</label>
-                                    <textarea name="newsContent" class="form-control" id="newsContent" rows="2"
+                                    <label for="AncContent" class="form-label">Announcement Content</label>
+                                    <textarea name="AncContent" class="form-control" id="AncContent" rows="2"
                                         required></textarea>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 mb-2">
-                                    <label for="publicationDate" class="form-label">Date</label>
-                                    <input type="datetime-local" name="publicationDate" class="form-control"
-                                        id="publicationDate" required>
+                                    <label for="AncDate" class="form-label">Date</label>
+                                    <input type="datetime-local" name="AncDate" class="form-control" id="AncDate"
+                                        required>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 mb-2">
-                                    <label for="newsStatus" class="form-label">Announcements Status</label>
-                                    <select name="newsStatus" class="form-select" id="newsStatus" required>
-                                        <option value="">Select Status</option>
-                                        <option value="1" class="text-success">Published</option>
-                                        <option value="2" class="text-primary">Draft</option>
-                                    </select>
+                            <div class="row d-none" id="showInputLink">
+                                <div class="col-md-12 col-lg-12 mb-2">
+                                    <label for="virtualLink" class="form-label">Virtual Link</label>
+                                    <input type="text" id="virtualLink" name="virtualLink" class="form-control">
+                                    <small>Get Link here: <span><a href="https://meet.google.com/"
+                                                target="_blank">Google Meet</a> | <a href="https://zoom.us/"
+                                                target="_blank">Zoom</a></span></small>
                                 </div>
                             </div>
+
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <button class="btn rounded-5 text-white" type="submit"
-                                    style="background-color: #013220;" name="addNewNews"><i
-                                        class="bi bi-plus-circle"></i> Add New Announcements</button>
+                                <button class="btn rounded-5 btn-primary" type="submit" name="CreateAnnouncement"><i
+                                        class="bi bi-plus-circle"></i> Create Announcement</button>
                             </div>
                         </form>
 
@@ -85,6 +118,19 @@ include "alert.php";
 
                     </div>
                 </div>
+
+                <script>
+                $(document).ready(function() {
+                    $('#typeAnc').on('keyup change', function() {
+                        var selectType = $(this).val();
+                        if (selectType) { // Optionally, add conditions to check for specific types
+                            $('#showInputLink').removeClass('d-none');
+                            $('#virtualLink').attr('required');
+
+                        }
+                    });
+                });
+                </script>
 
             </div>
 
@@ -101,13 +147,38 @@ include "alert.php";
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Announcements Title</th>
-                                    <th scope="col">Publication Date</th>
+                                    <th scope="col">Class Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Date</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php 
+                                // Get Posted Announcement
+                                $tc = $_SESSION['user_id'];
 
+                                $anc = "SELECT * FROM announcement WHERE TeacherCode = '$tc'";
+                                $show = mysqli_query($conn, $anc);
+
+                                while ($list = mysqli_fetch_assoc($show)) {
+                                    $count = 1;
+                                ?>
+                                <td><?= $count++?></td>
+                                <td><?= $list['Title']?></td>
+                                <td><?= $list['SubjectCode']?></td>
+                                <td><?= $list['Type']?></td>
+                                <td><?= $list['forDate']?></td>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm g-2"><i class="bi bi-dash-circle"></i></button>
+                                    <button class="btn btn-info btn-sm"><i class="bi bi-pencil-square"></i></button>
+                                </td>
+
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table><!-- End Table for news posted rows -->
 

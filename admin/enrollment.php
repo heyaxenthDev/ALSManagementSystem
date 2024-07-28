@@ -21,19 +21,19 @@ include "alert.php";
     <section class="section">
         <div class="row dashboard">
             <?php 
-    // Get subjects listed
-    $query = "SELECT * FROM `subjects`";
-    $result = mysqli_query($conn, $query);
+                // Get subjects listed
+                $query = "SELECT * FROM `subjects`";
+                $result = mysqli_query($conn, $query);
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        $subjectCode = $row['Subject_code'];
-        
-        // Get the count of enrolled students for this subject
-        $enrollmentQuery = "SELECT COUNT(*) AS enrolled_count FROM `enrollments` WHERE `subjectCode` = '$subjectCode'";
-        $enrollmentResult = mysqli_query($conn, $enrollmentQuery);
-        $enrollmentRow = mysqli_fetch_assoc($enrollmentResult);
-        $enrolledCount = $enrollmentRow['enrolled_count'];
-?>
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $subjectCode = $row['Subject_code'];
+                    
+                    // Get the count of enrolled students for this subject
+                    $enrollmentQuery = "SELECT COUNT(*) AS enrolled_count FROM `enrollments` WHERE `subjectCode` = '$subjectCode'";
+                    $enrollmentResult = mysqli_query($conn, $enrollmentQuery);
+                    $enrollmentRow = mysqli_fetch_assoc($enrollmentResult);
+                    $enrolledCount = $enrollmentRow['enrolled_count'];
+            ?>
 
             <!-- Subject Card -->
             <div class="col-xxl-4 col-md-6">

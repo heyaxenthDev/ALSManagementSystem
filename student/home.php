@@ -12,13 +12,38 @@ include "alert.php";
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Welcome, <?= $firstname ?></h1>
+        <h1 id="greeting"><?= "Good day, ". $firstname ?>!</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="home">Home</a></li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
+
+    <script>
+    function getGreeting() {
+        const now = new Date();
+        const hours = now.getHours();
+        let greeting;
+
+        if (hours < 12) {
+            greeting = "Good morning";
+        } else if (hours < 18) {
+            greeting = "Good afternoon";
+        } else {
+            greeting = "Good evening";
+        }
+
+        return greeting;
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const greetingElement = document.getElementById('greeting');
+        const currentGreeting = greetingElement.textContent;
+        const newGreeting = getGreeting() + currentGreeting.substring(currentGreeting.indexOf(','));
+        greetingElement.textContent = newGreeting;
+    });
+    </script>
 
     <section class="section dashboard">
         <div class="row">

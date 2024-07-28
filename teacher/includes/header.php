@@ -55,6 +55,7 @@ include "includes/conn.php";
                 while ($row = $result->fetch_assoc()) {
                     $short_name = substr($row['First_name'], 0, 1) . ".". $row['Last_name'];
                     $name = $row['First_name'] .  " " . substr($row['Middle_name'], 0, 1) . ". " . $row['Last_name'];
+                    $fname = $row['First_name'];
                     $code = $row['ID_Number'];
                 }
             } else {
