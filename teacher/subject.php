@@ -36,7 +36,7 @@ include "alert.php";
                                     <th>#</th>
                                     <th>Subject Name</th>
                                     <th>Descriptive Title</th>
-                                    <th>Description</th>
+                                    <th>Class Code</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -44,23 +44,31 @@ include "alert.php";
                             <tbody>
                                 <?php 
                                 // Fetch data from the subject table
-                                $query = "SELECT * FROM `subjects`";
-                                $results = mysqli_query($conn, $query);
+                                $teacherCode = $_SESSION['user_id'];
+                                
+                                $stmt =  $conn->prepare("SELECT * FROM `subjects` WHERE `teacherCode` = ?");
+                                $stmt->bind_param("s", $teacherCode);
+                                $stmt->execute();
+                                $get_sub = $stmt->get_result();
                                 
                                 $counter = 1;
-                                while($row = mysqli_fetch_assoc($results)){
+                                if ($get_sub && $get_sub->num_rows > 0) {
+                                while($row = $get_sub->fetch_assoc()){
                                 ?>
                                 <tr>
                                     <td><?php echo $counter++ ?></td>
                                     <td><?php echo $row['Name'];?></td>
                                     <td><?php echo $row['DescTitle'];?></td>
-                                    <td><?php echo $row['Description']?></td>
+                                    <td><?php echo $row['Subject_code']?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary g-2"><i class="bi bi-eye"></i></button>
-                                        <button class="btn btn-sm btn-success"><i class="bi bi-pen"></i></button>
+                                        <a href="subject view.php?ref=<?= $row['Subject_code']?>&name=<?= $row['Name']?>"
+                                            class="btn btn-sm btn-primary g-2"><i class="bi bi-eye"></i> View
+                                            Class</a>
+                                        <!-- <button class="btn btn-sm btn-success"><i class="bi bi-pen"></i></button> -->
                                     </td>
                                 </tr>
                                 <?php 
+                                 }
                                 }
                                 ?>
                             </tbody>
