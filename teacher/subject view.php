@@ -41,7 +41,7 @@ include "alert.php";
         <!-- Modal -->
         <div class="modal fade" id="NewLessonTopic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Topic |
@@ -82,12 +82,7 @@ include "alert.php";
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+
                                 <hr>
                                 <h4>Quizes</h4>
                                 <!-- Quiz Table-->
@@ -167,7 +162,7 @@ include "alert.php";
                                     </tbody>
                                 </table>
                                 <!-- End Assignment Table-->
-
+                                <hr>
                                 <h4>Modules</h4>
                                 <!-- Module Table-->
                                 <table class="table table-hover">
