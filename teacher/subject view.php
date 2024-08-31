@@ -24,7 +24,7 @@ include "alert.php";
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="pt-2">
+        <div class="pt-2 mb-3">
             <div class="dropdown">
                 <button class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-plus"></i> Create
@@ -33,10 +33,13 @@ include "alert.php";
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#Assignment"><i
                                 class="bi bi-clipboard"></i>Assignment</a></li>
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#NewQuizModal"><i
-                                class="bi bi-list-task"></i> Quiz</a></li>
+                                class="bi bi-list-task"></i>
+                            Quiz</a></li>
                     <!-- <li><a class="dropdown-item" href="#"><i class="bi bi-check-square"></i> Exam</a></li> -->
                     <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text"></i> Module</a></li>
-                    <hr>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#NewLessonTopic">
                             <i class="bi bi-list-columns"></i> Topic</a></li>
                 </ul>

@@ -162,21 +162,23 @@ include "alert.php";
 
                                 $anc = "SELECT * FROM announcement WHERE TeacherCode = '$tc'";
                                 $show = mysqli_query($conn, $anc);
-
+                                $count = 1;
                                 while ($list = mysqli_fetch_assoc($show)) {
-                                    $count = 1;
+                                    
                                 ?>
-                                <td><?= $count++?></td>
-                                <td><?= $list['Title']?></td>
-                                <td><?= $list['SubjectCode']?></td>
-                                <td><?= $list['Type']?></td>
-                                <td><?= $list['forDate']?></td>
-                                <td></td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm g-2"><i class="bi bi-dash-circle"></i></button>
-                                    <button class="btn btn-info btn-sm"><i class="bi bi-pencil-square"></i></button>
-                                </td>
-
+                                <tr>
+                                    <td><?= $count++ ?></td>
+                                    <td><?= $list['Title']?></td>
+                                    <td><?= $list['SubjectCode']?></td>
+                                    <td><?= $list['Type']?></td>
+                                    <td><?= $list['forDate']?></td>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm g-2"><i
+                                                class="bi bi-dash-circle"></i></button>
+                                        <button class="btn btn-info btn-sm"><i class="bi bi-pencil-square"></i></button>
+                                    </td>
+                                </tr>
                                 <?php
                                 }
                                 ?>

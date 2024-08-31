@@ -164,7 +164,7 @@
         <!-- Quiz Modal -->
         <div class="modal fade" id="NewQuizModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="QuizModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
@@ -182,22 +182,111 @@
                     </div>
 
                     <form action="code.php" method="POST">
-                        <div class="modal-body">
-                            <input type="hidden" name="classCode" value="<?php echo $_GET['ref']?>">
-                            <input type="hidden" name="teacherCode" value="<?php echo $_SESSION['user_id']?>">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingTitle" name="Title"
-                                    placeholder="Lesson 1">
-                                <label for="floatingTitle">Topic | Lesson Title</label>
+                        <div class="modal-body m-2">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body pt-3">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="assTitle" name="assTitle"
+                                                    placeholder="Title">
+                                                <label for="assTitle">Title</label>
+                                            </div>
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Add a short Description"
+                                                    id="floatingShortDesc" name="shortDesc"
+                                                    style="height: 120px"></textarea>
+                                                <label for="floatingShortDesc">Instructions (Optional)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h4 class="card-title mx-3">Questions</h4>
+                                        <div class="card-body d-flex justify-content-center">
+                                            <a class="btn btn-primary" target="_blank"
+                                                href="questionaire?ref=<?= $_GET['ref']?>&name=<?= $_GET['name']?>">Create
+                                                Questionare <i class="bi bi-arrow-bar-right"></i></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="card p-2">
+                                        <div class="card-body">
+                                            <h4 class="card-title">For</h4>
+                                            <div class="row">
+                                                <select name="selectStudentsFor" id="selectStudentsFor"
+                                                    class="form-select">
+                                                    <option value="All Students">All Students</option>
+                                                    <option value="Another Option Here">Another Option Here</option>
+                                                </select>
+                                            </div>  
+
+                                            <h4 class="card-title">Points</h4>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <select class="form-select" id="pointsOption">
+                                                        <option value="ungraded">Ungraded</option>
+                                                        <option value="graded">Graded</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 d-none" id="pointsInput">
+                                                    <input type="number" class="form-control"
+                                                        placeholder="Enter points">
+                                                </div>
+                                            </div>
+
+                                            <h4 class="card-title">Due</h4>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <select class="form-select" id="dueOption">
+                                                        <option value="none">No Due Date</option>
+                                                        <option value="dueDate">Due Date</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 d-none" id="dueInput">
+                                                    <input type="date" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <h4 class="card-title">Topic</h4>
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <select class="form-select" id="topicOption">
+                                                        <option selected>No Topic</option>
+                                                        <?php 
+                                                    // Get Topics from database
+
+                                                    $classCode = $_GET['ref'];
+                                                    $teacher = $_SESSION['user_id'];
+
+                                                    $stmt = $conn->prepare("SELECT * FROM topics WHERE ClassCode = ? AND TeacherCode = ?");
+                                                    $stmt->bind_param("ss", $classCode, $teacher);
+                                                    $stmt->execute();
+                                                    $get_topics = $stmt->get_result();
+
+                                                    if ($get_topics && $get_topics->num_rows > 0) {
+                                                        while ($row = $get_topics->fetch_assoc()) {
+                                                ?>
+                                                        <option value="<?= $row['Title']?>"><?= $row['Title']?></option>
+                                                        <?php 
+                                                        }
+                                                    }
+                                                ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 d-none" id="topicInput">
+                                                    <input type="text" class="form-control" placeholder="Enter topic">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Add a short Description"
-                                    id="floatingShortDesc" name="shortDesc" style="height: 100px"></textarea>
-                                <label for="floatingShortDesc">Short Description about the lesson...</label>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" name="CreateLesson">Create Lesson</button>
+
                         </div>
                     </form>
                 </div>
