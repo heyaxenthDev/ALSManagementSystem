@@ -104,4 +104,56 @@ function setSessionStatus($status, $statusText, $statusCode, $statusBtn) {
     $_SESSION['status_code'] = $statusCode;
     $_SESSION['status_btn'] = $statusBtn;
 }
+
+// Check if the form is submitted
+if (isset($_POST['adminReg'])) {
+    // Retrieve form data
+    $adminID = $conn->real_escape_string($_POST['adminID']);
+    $firstname = $conn->real_escape_string($_POST['firstname']);
+    $lastname = $conn->real_escape_string($_POST['lastname']);
+    $middlename = isset($_POST['middlename']) ? $conn->real_escape_string($_POST['middlename']) : null;
+
+    // Check if the admin ID already exists
+    $checkQuery = $conn->prepare("SELECT `adminID` FROM `admin` WHERE `adminID` = ?");
+    $checkQuery->bind_param("s", $adminID);
+    $checkQuery->execute();
+    $checkQuery->store_result();
+
+    if ($checkQuery->num_rows > 0) {
+        // If admin ID already exists, set an error message and redirect
+        $_SESSION['status'] = "Duplicate Account";
+        $_SESSION['status_text'] = "An account with this Admin ID already exists.";
+        $_SESSION['status_code'] = "warning";
+        $_SESSION['status_btn'] = "Back";
+    } else {
+        // Hash the password (which is the same as adminID)
+        $hashedPassword = password_hash($adminID, PASSWORD_DEFAULT);
+
+        // Prepare and bind the insert statement
+        $stmt = $conn->prepare("INSERT INTO `admin`(`adminID`, `Firstname`, `Lastname`, `Middlename`, `password`) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $adminID, $firstname, $lastname, $middlename, $hashedPassword);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            $_SESSION['status'] = "Success";
+            $_SESSION['status_text'] = "New admin account created successfully!";
+            $_SESSION['status_code'] = "success";
+            $_SESSION['status_btn'] = "OK";
+        } else {
+            $_SESSION['status'] = "Registration Error";
+            $_SESSION['status_text'] = "Please try again later.";
+            $_SESSION['status_code'] = "error";
+            $_SESSION['status_btn'] = "Back";
+        }
+
+        $stmt->close();
+    }
+
+    $checkQuery->close();
+    $conn->close();
+
+    // Redirect back to the form page
+    header("Location: {$_SERVER['HTTP_REFERER']}");
+    exit();
+}
 ?>

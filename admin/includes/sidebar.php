@@ -45,13 +45,6 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </a>
         </li><!-- End Teachers Page Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'announcement') ? '' : 'collapsed' ?>" href="announcement">
-                <i class="bi bi-megaphone"></i>
-                <span>Announcement</span>
-            </a>
-        </li><!-- End Announcements Page Nav -->
-
 
         <li class="nav-heading">User</li>
 
