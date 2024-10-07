@@ -12,7 +12,7 @@
                             </h1>
                         </div>
                         <div>
-                            <button class="btn btn-success">
+                            <button class="btn btn-success add-assign" type="submit">
                                 Post <i class="ri ri-arrow-drop-right-fill"></i>
                             </button>
                         </div>
@@ -117,7 +117,7 @@
                                                     if ($get_topics && $get_topics->num_rows > 0) {
                                                         while ($row = $get_topics->fetch_assoc()) {
                                                 ?>
-                                                    <option value="<?= $row['Title']?>"><?= $row['Title']?></option>
+                                                    <option value="<?= $row['Tp_ID']?>"><?= $row['Title']?></option>
                                                     <?php 
                                                         }
                                                     }
@@ -125,6 +125,11 @@
                                                 </select>
 
                                             </div>
+                                            <input type="hidden" name="classCode" id="classCode"
+                                                value="<?= $_GET['ref']?>">
+                                            <input type="hidden" name="teacherCode" id="teacherCode"
+                                                value="<?= $_SESSION['user_id']?>">
+
                                             <div class="col-md-6 d-none" id="topicInput">
                                                 <input type="text" class="form-control" placeholder="Enter topic">
                                             </div>
@@ -160,6 +165,36 @@
 
             </div>
         </div>
+
+        <script>
+document.querySelector('.add-assign').addEventListener('click', function() {
+    const formData = new FormData();
+    formData.append('assTitle', document.getElementById('assTitle').value);
+    formData.append('shortDesc', document.getElementById('floatingShortDesc').value);
+    formData.append('uploadModule', document.getElementById('uploadModule').files[0]);
+    formData.append('selectStudentsFor', document.getElementById('selectStudentsFor').value);
+    formData.append('pointsOption', document.getElementById('pointsOption').value);
+    formData.append('pointsInput', document.querySelector('#pointsInput input').value);
+    formData.append('dueOption', document.getElementById('dueOption').value);
+    formData.append('dueInput', document.querySelector('#dueInput input').value);
+    formData.append('topicOption', document.getElementById('topicOption').value);
+    formData.append('classCode', document.getElementById('classCode').value);
+    formData.append('teacherCode', document.getElementById('teacherCode').value);
+
+
+    fetch('code.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+        </script>
 
         <!-- Quiz Modal -->
         <div class="modal fade" id="NewQuizModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -222,7 +257,7 @@
                                                     <option value="All Students">All Students</option>
                                                     <option value="Another Option Here">Another Option Here</option>
                                                 </select>
-                                            </div>  
+                                            </div>
 
                                             <h4 class="card-title">Points</h4>
                                             <div class="row mb-3">

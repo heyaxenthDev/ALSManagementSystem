@@ -89,4 +89,46 @@ if (isset($_POST['CreateLesson'])) {
     $stmt->close();
     $conn->close();
 }
+
+
+// Handle file upload
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $assTitle = $_POST['assTitle'];
+    $shortDesc = $_POST['shortDesc'];
+    $selectStudentsFor = $_POST['selectStudentsFor'];
+    $pointsOption = $_POST['pointsOption'];
+    $points = $pointsOption === 'graded' ? $_POST['pointsInput'] : null;
+    $dueOption = $_POST['dueOption'];
+    $dueDate = $dueOption === 'dueDate' ? $_POST['dueInput'] : null;
+    $topicOption = $_POST['topicOption'];
+    $classCode = $_POST['classCode'];
+    $teacherCode = $_POST['teacherCode'];
+
+    // File upload handling
+    $fileName = null;
+    if (isset($_FILES['uploadModule']) && $_FILES['uploadModule']['error'] == 0) {
+        $fileName = time() . "_" . basename($_FILES["uploadModule"]["name"]);
+        $targetFilePath = "uploads/" . $fileName;
+
+        // Move the file to the desired location
+        if (!move_uploaded_file($_FILES["uploadModule"]["tmp_name"], $targetFilePath)) {
+            die("File upload failed.");
+        }
+    }
+
+    // SQL Insert statement
+    $stmt = $conn->prepare("INSERT INTO assignments (title, description, file_name, students_group, points_option, points, due_option, due_date, topic, class_code, teacher_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssssss", $assTitle, $shortDesc, $fileName, $selectStudentsFor, $pointsOption, $points, $dueOption, $dueDate, $topicOption, $classCode, $teacherCode);
+
+    // Execute query
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Assignment saved successfully!']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $conn->error]);
+    }
+
+    // Close statement and connection
+    $stmt->close();
+    $conn->close();
+}
 ?>
