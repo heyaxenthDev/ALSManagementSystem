@@ -830,6 +830,11 @@ h6 {
   background: #ffecdf;
 }
 
+.dashboard .subject-card .card-icon {
+  color: #ff1dec;
+  background: #f9dfff;
+}
+
 /* Activity */
 .dashboard .activity {
   font-size: 14px;

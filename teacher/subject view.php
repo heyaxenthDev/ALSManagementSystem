@@ -36,7 +36,8 @@ include "alert.php";
                                 class="bi bi-list-task"></i>
                             Quiz</a></li>
                     <!-- <li><a class="dropdown-item" href="#"><i class="bi bi-check-square"></i> Exam</a></li> -->
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text"></i> Module</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ModuleModal"><i
+                                class="bi bi-file-earmark-text"></i> Module</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

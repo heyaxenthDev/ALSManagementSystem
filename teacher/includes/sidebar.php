@@ -18,18 +18,20 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link <?= ($current_page == 'subject') ? '' : 'collapsed' ?>" href="subject">
+            <a class="nav-link <?= ($current_page == 'subject' || $current_page == 'subject view') ? '' : 'collapsed' ?>"
+                href="subject">
                 <i class="bi bi-book"></i>
                 <span>Subject</span>
             </a>
         </li><!-- End Subject Page Nav -->
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'class') ? '' : 'collapsed' ?>" href="Class">
                 <i class="bi bi-bookmarks-fill"></i>
                 <span>Class</span>
             </a>
-        </li><!-- End Class Page Nav -->
+        </li> -->
+        <!-- End Class Page Nav -->
 
         <li class="nav-item">
             <a class="nav-link <?= ($current_page == 'announcement') ? '' : 'collapsed' ?>" href="announcement">

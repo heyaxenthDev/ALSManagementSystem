@@ -166,35 +166,6 @@
             </div>
         </div>
 
-        <script>
-document.querySelector('.add-assign').addEventListener('click', function() {
-    const formData = new FormData();
-    formData.append('assTitle', document.getElementById('assTitle').value);
-    formData.append('shortDesc', document.getElementById('floatingShortDesc').value);
-    formData.append('uploadModule', document.getElementById('uploadModule').files[0]);
-    formData.append('selectStudentsFor', document.getElementById('selectStudentsFor').value);
-    formData.append('pointsOption', document.getElementById('pointsOption').value);
-    formData.append('pointsInput', document.querySelector('#pointsInput input').value);
-    formData.append('dueOption', document.getElementById('dueOption').value);
-    formData.append('dueInput', document.querySelector('#dueInput input').value);
-    formData.append('topicOption', document.getElementById('topicOption').value);
-    formData.append('classCode', document.getElementById('classCode').value);
-    formData.append('teacherCode', document.getElementById('teacherCode').value);
-
-
-    fetch('code.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-});
-        </script>
 
         <!-- Quiz Modal -->
         <div class="modal fade" id="NewQuizModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -328,6 +299,129 @@ document.querySelector('.add-assign').addEventListener('click', function() {
             </div>
         </div>
 
+        <!-- Module/Material Modal -->
+        <div class="modal fade" id="ModuleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="ModuleModal" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn-close me-3" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            <h1 class="modal-title fs-5 text-primary fw-semibold" id="ModuleModal">
+                                <i class="bi bi-file-earmark-text"></i> Module/Material
+                            </h1>
+                        </div>
+                        <div>
+                            <button class="btn btn-success add-assign" type="submit">
+                                Post <i class="ri ri-arrow-drop-right-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="modal-body m-2">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="assTitle" name="assTitle"
+                                                placeholder="Title">
+                                            <label for="assTitle">Title</label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Add a short Description"
+                                                id="floatingShortDesc" name="shortDesc"
+                                                style="height: 120px"></textarea>
+                                            <label for="floatingShortDesc">Instructions (Optional)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <h4 class="card-title mx-3">Attachments</h4>
+                                    <div class="card-body text-center">
+                                        <label for="uploadModule" class="btn btn-primary mt-3">
+                                            <i class="bi bi-upload"></i> Upload Module/Document
+                                        </label>
+                                        <input type="file" id="uploadModule" name="uploadModule" style="display: none;">
+                                        <div id="fileName" class="mt-3"></div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                $(document).ready(function() {
+                                    $('#uploadModule').on('change', function() {
+                                        var fileName = $(this).val().split('\\').pop();
+                                        $('#fileName').html('<strong>Selected file:</strong> ' +
+                                            fileName);
+                                    });
+                                });
+                                </script>
+
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="card p-2">
+                                    <div class="card-body">
+                                        <h4 class="card-title">For</h4>
+                                        <div class="row">
+                                            <select name="selectStudentsFor" id="selectStudentsFor" class="form-select">
+                                                <option value="All Students">All Students</option>
+                                                <option value="Another Option Here">Another Option Here</option>
+                                            </select>
+                                        </div>
+
+                                        <h4 class="card-title">Topic</h4>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <select class="form-select" id="topicOption">
+                                                    <option selected>No Topic</option>
+                                                    <?php 
+                                                    // Get Topics from database
+
+                                                    $classCode = $_GET['ref'];
+                                                    $teacher = $_SESSION['user_id'];
+
+                                                    $stmt = $conn->prepare("SELECT * FROM topics WHERE ClassCode = ? AND TeacherCode = ?");
+                                                    $stmt->bind_param("ss", $classCode, $teacher);
+                                                    $stmt->execute();
+                                                    $get_topics = $stmt->get_result();
+
+                                                    if ($get_topics && $get_topics->num_rows > 0) {
+                                                        while ($row = $get_topics->fetch_assoc()) {
+                                                ?>
+                                                    <option value="<?= $row['Tp_ID']?>"><?= $row['Title']?></option>
+                                                    <?php 
+                                                        }
+                                                    }
+                                                ?>
+                                                </select>
+
+                                            </div>
+                                            <input type="hidden" name="classCode" id="classCode"
+                                                value="<?= $_GET['ref']?>">
+                                            <input type="hidden" name="teacherCode" id="teacherCode"
+                                                value="<?= $_SESSION['user_id']?>">
+
+                                            <div class="col-md-6 d-none" id="topicInput">
+                                                <input type="text" class="form-control" placeholder="Enter topic">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
         <!-- New Lesson Modal -->
         <div class="modal fade" id="NewLessonTopic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="NewTopicModal" aria-hidden="true">
@@ -360,3 +454,5 @@ document.querySelector('.add-assign').addEventListener('click', function() {
                 </div>
             </div>
         </div>
+
+        <script src="assets/js/form-submit.js"></script>
