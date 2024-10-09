@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2024 at 06:06 AM
+-- Generation Time: Oct 09, 2024 at 05:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -37,7 +37,6 @@ CREATE TABLE `admin` (
   `date_created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -54,6 +53,28 @@ CREATE TABLE `announcement` (
   `TeacherCode` varchar(255) NOT NULL,
   `VirtualLink` varchar(255) DEFAULT NULL,
   `date_created` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignments`
+--
+
+CREATE TABLE `assignments` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `students_group` varchar(255) DEFAULT NULL,
+  `points_option` enum('ungraded','graded') DEFAULT 'ungraded',
+  `points` int(11) DEFAULT NULL,
+  `due_option` enum('none','dueDate') DEFAULT 'none',
+  `due_date` date DEFAULT NULL,
+  `topic` varchar(255) DEFAULT NULL,
+  `class_code` varchar(255) DEFAULT NULL,
+  `teacher_code` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -83,6 +104,25 @@ CREATE TABLE `enrollments` (
   `teacherCode` varchar(255) NOT NULL,
   `category` varchar(255) NOT NULL,
   `date_created` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `modules`
+--
+
+CREATE TABLE `modules` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `students_group` varchar(255) DEFAULT NULL,
+  `topic_id` int(11) DEFAULT NULL,
+  `class_code` varchar(255) DEFAULT NULL,
+  `teacher_code` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -120,7 +160,6 @@ CREATE TABLE `subjects` (
   `date_created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -154,6 +193,7 @@ CREATE TABLE `topics` (
   `ClassCode` varchar(255) NOT NULL,
   `date_created` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -168,6 +208,18 @@ ALTER TABLE `admin`
 -- Indexes for table `announcement`
 --
 ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `assignments`
+--
+ALTER TABLE `assignments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `modules`
+--
+ALTER TABLE `modules`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -208,6 +260,18 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `assignments`
+--
+ALTER TABLE `assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `modules`
+--
+ALTER TABLE `modules`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
