@@ -13,16 +13,6 @@ document.querySelector(".add-assign").addEventListener("click", function () {
     "selectStudentsFor",
     document.getElementById("selectStudentsFor").value
   );
-  formData.append(
-    "pointsOption",
-    document.getElementById("pointsOption").value
-  );
-  formData.append(
-    "pointsInput",
-    document.querySelector("#pointsInput input").value
-  );
-  formData.append("dueOption", document.getElementById("dueOption").value);
-  formData.append("dueInput", document.querySelector("#dueInput input").value);
   formData.append("topicOption", document.getElementById("topicOption").value);
   formData.append("classCode", document.getElementById("classCode").value);
   formData.append("teacherCode", document.getElementById("teacherCode").value);

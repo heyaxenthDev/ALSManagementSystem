@@ -91,10 +91,10 @@ if (isset($_POST['CreateLesson'])) {
 }
 
 
-// Handle file upload
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $assTitle = $_POST['assTitle'];
-    $shortDesc = $_POST['shortDesc'];
+if (isset($_POST['add-assign'])) {
+    // Sanitize inputs to avoid SQL injection
+    $assTitle = trim($_POST['assTitle']);
+    $shortDesc = trim($_POST['shortDesc']);
     $selectStudentsFor = $_POST['selectStudentsFor'];
     $pointsOption = $_POST['pointsOption'];
     $points = $pointsOption === 'graded' ? $_POST['pointsInput'] : null;
@@ -104,15 +104,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $classCode = $_POST['classCode'];
     $teacherCode = $_POST['teacherCode'];
 
-    // File upload handling
+    // Initialize file upload variables
     $fileName = null;
-    if (isset($_FILES['uploadModule']) && $_FILES['uploadModule']['error'] == 0) {
-        $fileName = time() . "_" . basename($_FILES["uploadModule"]["name"]);
+    $targetFilePath = null;
+
+    // Check if a file has been uploaded and is valid
+    if (isset($_FILES['uploadModule']) && $_FILES['uploadModule']['error'] === UPLOAD_ERR_OK) {
+        // Get file details
+        $fileTmpPath = $_FILES['uploadModule']['tmp_name'];
+        $fileName = time() . "_" . basename($_FILES['uploadModule']['name']);
         $targetFilePath = "uploads/" . $fileName;
 
-        // Move the file to the desired location
-        if (!move_uploaded_file($_FILES["uploadModule"]["tmp_name"], $targetFilePath)) {
-            die("File upload failed.");
+        // Validate the file type (optional, but recommended)
+        $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        $allowedTypes = ['pdf', 'doc', 'docx', 'ppt', 'pptx']; // Specify allowed types
+        if (!in_array($fileType, $allowedTypes)) {
+            // If file type is not allowed, prevent form submission
+            $_SESSION['status'] = "Invalid File Type";
+            $_SESSION['status_text'] = "Only PDF, DOC, DOCX, PPT, and PPTX files are allowed.";
+            $_SESSION['status_code'] = "error";
+            $_SESSION['status_btn'] = "ok";
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+            exit; // Stop script execution
+        }
+
+        // Move the uploaded file to the target directory
+        if (!move_uploaded_file($fileTmpPath, $targetFilePath)) {
+            $_SESSION['status'] = "File Upload Failed";
+            $_SESSION['status_text'] = "There was an error uploading your file.";
+            $_SESSION['status_code'] = "error";
+            $_SESSION['status_btn'] = "ok";
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+            exit; // Stop script execution
         }
     }
 
@@ -120,11 +143,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare("INSERT INTO assignments (title, description, file_name, students_group, points_option, points, due_option, due_date, topic, class_code, teacher_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssssssss", $assTitle, $shortDesc, $fileName, $selectStudentsFor, $pointsOption, $points, $dueOption, $dueDate, $topicOption, $classCode, $teacherCode);
 
-    // Execute query
+    // Execute query and set session status based on result
     if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Assignment saved successfully!']);
+        $_SESSION['status'] = "Success";
+        $_SESSION['status_text'] = "Lesson created successfully!";
+        $_SESSION['status_code'] = "success";
+        $_SESSION['status_btn'] = "Done";
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+        exit;
     } else {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $conn->error]);
+        $_SESSION['status'] = "Error Saving Assignment";
+        $_SESSION['status_text'] = "Error: " . $stmt->error;
+        $_SESSION['status_code'] = "error";
+        $_SESSION['status_btn'] = "ok";
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+        exit;
     }
 
     // Close statement and connection
