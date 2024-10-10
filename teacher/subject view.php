@@ -84,8 +84,8 @@ include "alert.php";
                                 a.id, a.title, a.description, a.file_name, a.students_group, 
                                 a.points_option, a.points, a.due_option, a.due_date, 
                                 a.topic, a.class_code, a.teacher_code, a.created_at,
-                                m.id AS module_id, m.title AS module_title, 
-                                m.topic_id AS module_topic_id, m.class_code AS module_class_code, 
+                                m.id AS module_id, m.title AS module_title, m.description AS module_desc,
+                                m.topic_id AS module_topic_id, m.class_code AS module_class_code, m.file_name AS module_file,
                                 m.teacher_code AS module_teacher_code, m.created_at AS module_created_at
                             FROM 
                                 `assignments` a
@@ -100,8 +100,8 @@ include "alert.php";
                                 a.id, a.title, a.description, a.file_name, a.students_group, 
                                 a.points_option, a.points, a.due_option, a.due_date, 
                                 a.topic, a.class_code, a.teacher_code, a.created_at,
-                                m.id AS module_id, m.title AS module_title, 
-                                m.topic_id AS module_topic_id, m.class_code AS module_class_code, 
+                                m.id AS module_id, m.title AS module_title, m.description AS module_desc,
+                                m.topic_id AS module_topic_id, m.class_code AS module_class_code, m.file_name AS module_file,
                                 m.teacher_code AS module_teacher_code, m.created_at AS module_created_at
                             FROM 
                                 `modules` m
@@ -128,7 +128,7 @@ include "alert.php";
                                         data-bs-target="#flush-<?php echo $act['id'] . '-' . date('Y-m-d', strtotime($act['created_at'])); ?>"
                                         aria-expanded="false"
                                         aria-controls="flush-<?php echo $act['id'] . '-' . date('Y-m-d', strtotime($act['created_at'])); ?>">
-                                        <?= $act['title'] ?>
+                                        <?= $act['title'] ?? $act['module_title']?>
                                         <!-- Ensure title exists in the result set -->
                                     </button>
                                 </h2>
@@ -137,7 +137,7 @@ include "alert.php";
                                     data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
                                         <!-- Replace this placeholder with actual content -->
-                                        <?= $act['description'] ?? 'No description available.' ?>
+                                        <?= ($act['description'] ?? 'No description available.') ?? ($act['module_desc'] ?? 'No description available.') ?>
                                         <?php if ($file_name): ?>
                                         <!-- Display the clickable button or file preview -->
                                         <div class="mt-3">
